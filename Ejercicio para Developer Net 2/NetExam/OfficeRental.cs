@@ -2,129 +2,189 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Runtime.CompilerServices;
     using NetExam.Abstractions;
     using NetExam.Dto;
+    using NetExam.Models;
 
     public class OfficeRental : IOfficeRental
     {
+        public List<Location> LocationList { get; set; } = new List<Location>();
+        public List<Office> OfficeList { get; set; } = new List<Office>();
+        public List<Request> RequestList { get; set; } = new List<Request>();
+
         public void AddLocation(LocationSpecs locationSpecs)
         {
-            // check if locationSpecs is null, if it is return a console error message
-            // if its not proceed to
-                // check if it LocationName or Neighbohood are null or white space,
-                // if either is, return a console error message
-                    // extract LocationName and Neighborhood from location specs
-                    // into an object that can be saved in memory or to the database
-                            // (here add the whole object with LocationName and Neighborhood to the list)
-                            // (since there would eventually be many objects in this list)
-                        // for instance a property defined in this same class, so I can access it
-                        // when retrieving a location. - for this define a public property of
-                        // type IEnumerable<ILocation> and
-                        // in a separate class implement a concrete class for ILocation with the Name property
-                    // add a constructor for office rental that uses dependency injection to set the properties
-                    // such as the IEnumerable<ILocation> object.
-            // return nothing since return type is void
-
-            // next: throw an exception of any type when location name already exists, for this:
-            // compare the locationSpecs.Name incoming parameter property with
-            // the existing IEnumerable<ILocation> object's name property for this:
-                // implement a comparison function where we pass as parameter the incoming parameter property
-                // inside the function loop though the IEnumerable<ILocation> object.Name property and check
-                // for a match with the incoming parameter, return true if match, return false if no match
-                    // the function would look something like this
-                        // private bool LocationNameExists(locationSpecs.Name)
-                        // {
-                        //  foreach (var item in IEnumerable<ILocation>object)
-                        //       {
-                        //          if (item.Name == locationSpecs.Name)
-                        //          { return true }
-                        //       }
-                        //      return false
-                        // }
-            // if result is true throw the exception
+            if (locationSpecs is null)
+            {
+                Console.WriteLine("Location may not be empty");
+                return;
+            }
             
+            if (string.IsNullOrWhiteSpace(locationSpecs.Name) || 
+                string.IsNullOrWhiteSpace(locationSpecs.Neighborhood))
+            {
+                Console.WriteLine("Name and Neighborhood cannot be empty");
+                return;
+            }
+
+            bool match = LocationNameExists(locationSpecs.Name);
+            if (match) 
+            { 
+                throw new Exception("Location Already Exists");
+            }
+
+            var record = new Location();
+            record.Name = locationSpecs.Name;
+            record.Neighborhood = locationSpecs.Neighborhood;
+            LocationList.Add(record);
+
+            Console.WriteLine("Location and Neighborhood Successfully Added");
+
+            Console.WriteLine("Complete Location List");
+
+            foreach (var item in LocationList)
+            {
+                Console.WriteLine($"{item.Name} in {item.Neighborhood}");
+            }
+
+        }
+        private bool LocationNameExists(string specsName)
+        {
+            foreach (var item in LocationList)
+            {
+                if (item.Name == specsName)
+                { return true; }
+            }
+            return false;
         }
 
         public void AddOffice(OfficeSpecs officeSpecs)
         {
-            // remember to check if officeSpecs is a null object and if
-            // either of the three properties it contains are null or white space
-            // return console error message if so
+            if (officeSpecs is null)
+            {
+                Console.WriteLine("Location may not be empty");
+                return;
+            }
 
-            // define a property IEnumerable<IOffice> and build in the constructor
-            // retrieve officeSpecs paramater values (LocationName, Name, MaxCapacity)
-            // and save them into a new IOffice element in the IEnumberable (which has Location Name and Name)
-            // what do we do with MaxCapacity?
-            
-            // check whether location exists before adding office
-            // bring the IEnumerable<ILocation>object and check if parameter officeSpecs.LocationName matches
-            // if it matches return true
-            // if it doesnt match return false - and throw exception
-            // private method could be 
-            // the function would look something like this -
-                // private bool LocationNameExists2(officeSpecs.LocationName)
-                // {
-                //  foreach (var item in IEnumerable<ILocation>object)
-                //       {
-                //          if (item.Name == officeSpecs.LocationName)
-                //          { return true }
-                //       }
-                //      return false
-                // }
+            if ((string.IsNullOrWhiteSpace(officeSpecs.LocationName)) ||
+                (string.IsNullOrWhiteSpace(officeSpecs.Name)) ||
+                (officeSpecs.MaxCapacity <= 0))
+            {
+                Console.WriteLine("Location Name, Office Name and Maximum Capacity cannot be empty");
+                return;
+            }
 
+            bool match = LocationNameExists(officeSpecs.LocationName);
+            if (!match)
+            {
+                throw new Exception("Location Does Not Exist");
+            }
 
-            // return nothing since return type is void
+            var record = new Office();
+            record.LocationName = officeSpecs.LocationName;
+            record.Name = officeSpecs.Name;
+            record.MaxCapacity = officeSpecs.MaxCapacity;
+            OfficeList.Add(record);
+
+            Console.WriteLine("Office Successfully Added");
+
+            Console.WriteLine("Complete Office List:");
+
+            foreach (var item in OfficeList)
+            {
+                Console.WriteLine($"{item.Name} in {item.LocationName} with" +
+                    $"a max capacity of {item.MaxCapacity}");
+            }
+
         }
 
         public void BookOffice(BookingRequest bookingRequest)
         {
-            // incoming parameter bookingRequest (LocationName, OfficeName, DateTime)
-            // search if Location Name exists in IEnumerable<ILocation>
-                // search if Office Name exists in IEnumerable<IOffice>
-                    // search if in the IEnumerable<IBooking>object dateTime stamp exists
-                            // if it doesnt persist it that is save it
+            if (bookingRequest is null)
+            {
+                Console.WriteLine("Booking Request may not be empty");
+                return;
+            }
 
-            // if location name does not exist return console error
-            // if office name does not exist return console error
-            // if datetime does not exist and loc and off exist, persist to memory 
+            if ((string.IsNullOrWhiteSpace(bookingRequest.LocationName)) ||
+                (string.IsNullOrWhiteSpace(bookingRequest.OfficeName)) ||
+                (string.IsNullOrWhiteSpace(bookingRequest.UserName)) ||
+                (bookingRequest.Hours <= 0))
+            {
+                Console.WriteLine("Booking Request Information must be complete");
+            }
+
+            bool match = LocationNameExists(bookingRequest.LocationName);
+            if (!match)
+            {
+                throw new Exception("Location Does Not Exist");
+            }
+
+            bool reservationMatch = OfficeIsTaken(bookingRequest);
+            if (reservationMatch)
+            {
+                throw new Exception("Office is Taken, Reservation for that Office Already Exists");
+            }
 
 
-            // AND BookOffice will throw an exception when booking an already taken office
-            // bookingRequest (LocationName, OfficeName, DateTime, Hours, UserName)
-            // so here I would have to check if location name exists
-            // check if office name exists in that location
-            // check that an office is not taken (how do i know this)
-            //      check if the datetime and the datetime plus one hour is taken, if it is throw an exception
+            var request = new Request();
+            request.LocationName = bookingRequest.LocationName;
+            request.OfficeName = bookingRequest.OfficeName;
+            request.UserName = bookingRequest.UserName;
+            request.Hours = bookingRequest.Hours;
+            request.DateTime = bookingRequest.DateTime;
+            RequestList.Add(request);
+
+            Console.WriteLine("Request Successfully Added");
+
+            Console.WriteLine("Complete Booking Request List:");
+
+            foreach (var item in RequestList)
+            {
+                Console.WriteLine($"{item.OfficeName} for {item.UserName} in {item.LocationName} " +
+                    $" booked at {item.DateTime} for a period of {item.Hours} hours");
+            }
+
+        }
+
+        private bool OfficeIsTaken(BookingRequest newRequest)
+        {
+            var result = RequestList.Where(x => x.LocationName == newRequest.LocationName &&
+            x.OfficeName == newRequest.OfficeName && (x.DateTime <= newRequest.DateTime &&
+            x.DateTime.AddHours((double)x.Hours) >= newRequest.DateTime)).Any();
+            return result;
+
         }
 
         public IEnumerable<IBooking> GetBookings(string locationName, string officeName)
         {
-            // check in the IEnumerable<IOffice>object
-            // bool = IEnumerable<IOffice>object.Any(u=>u.LocationName == locationName && u.Name == officeName)
-            // if true location and office exist and we can retrieve bookings
-            //
-            // return the IEnumerable<IBooking>object (DateTime)
-
-            // if false location and/or office do not exist and console error message is output.
-            //
+            IEnumerable<IBooking> result = (IEnumerable<IBooking>)RequestList.
+                Where(x => x.LocationName == locationName && x.OfficeName == officeName);
+  
+            return result;
         }
 
         public IEnumerable<ILocation> GetLocations()
         {
-            // return the IEnumerable<ILocation> property
+            IEnumerable<Location> result = LocationList.ToList();
+            return result;
+
         }
 
         public IEnumerable<IOffice> GetOffices(string locationName)
         {
-            // return an IEnumerable<IOffice> (LocationName Name) based on the locationName string parameter.
-            // use LINQ IEnumerable<IOffice>object.Where(u => u.LocationName == locationName).ToList();
-            // return this new filtered object.
+            IEnumerable<Office> result = OfficeList.ToList();
+            return result;
+
         }
 
         public IEnumerable<IOffice> GetOfficeSuggestion(SuggestionRequest suggestionRequest)
         {
             throw new NotImplementedException();
         }
+
+        
     }
 }

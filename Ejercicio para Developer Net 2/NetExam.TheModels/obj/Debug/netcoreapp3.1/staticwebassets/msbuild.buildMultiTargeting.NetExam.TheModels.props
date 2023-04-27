@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\build\NetExam.TheModels.props" />
+</Project>

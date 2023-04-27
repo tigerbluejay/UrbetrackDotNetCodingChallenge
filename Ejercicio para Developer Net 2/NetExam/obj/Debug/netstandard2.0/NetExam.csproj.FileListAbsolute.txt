@@ -1,0 +1,10 @@
+C:\Users\josem\source\Large Projects\Urbetrack Coding Challenge\Ejercicio para Developer Net 2\Ejercicio para Developer Net 2\NetExam\obj\Debug\netstandard2.0\NetExam.csproj.AssemblyReference.cache
+C:\Users\josem\source\Large Projects\Urbetrack Coding Challenge\Ejercicio para Developer Net 2\Ejercicio para Developer Net 2\NetExam\obj\Debug\netstandard2.0\NetExam.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\josem\source\Large Projects\Urbetrack Coding Challenge\Ejercicio para Developer Net 2\Ejercicio para Developer Net 2\NetExam\obj\Debug\netstandard2.0\NetExam.AssemblyInfoInputs.cache
+C:\Users\josem\source\Large Projects\Urbetrack Coding Challenge\Ejercicio para Developer Net 2\Ejercicio para Developer Net 2\NetExam\obj\Debug\netstandard2.0\NetExam.AssemblyInfo.cs
+C:\Users\josem\source\Large Projects\Urbetrack Coding Challenge\Ejercicio para Developer Net 2\Ejercicio para Developer Net 2\NetExam\obj\Debug\netstandard2.0\NetExam.csproj.CoreCompileInputs.cache
+C:\Users\josem\source\Large Projects\Urbetrack Coding Challenge\Ejercicio para Developer Net 2\Ejercicio para Developer Net 2\NetExam\bin\Debug\netstandard2.0\NetExam.deps.json
+C:\Users\josem\source\Large Projects\Urbetrack Coding Challenge\Ejercicio para Developer Net 2\Ejercicio para Developer Net 2\NetExam\bin\Debug\netstandard2.0\NetExam.dll
+C:\Users\josem\source\Large Projects\Urbetrack Coding Challenge\Ejercicio para Developer Net 2\Ejercicio para Developer Net 2\NetExam\bin\Debug\netstandard2.0\NetExam.pdb
+C:\Users\josem\source\Large Projects\Urbetrack Coding Challenge\Ejercicio para Developer Net 2\Ejercicio para Developer Net 2\NetExam\obj\Debug\netstandard2.0\NetExam.dll
+C:\Users\josem\source\Large Projects\Urbetrack Coding Challenge\Ejercicio para Developer Net 2\Ejercicio para Developer Net 2\NetExam\obj\Debug\netstandard2.0\NetExam.pdb
