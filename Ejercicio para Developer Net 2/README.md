@@ -1,6 +1,6 @@
 # Ejercicio de evaluacion de candidatos .NET
 
-## Introduccipn
+## Introduccion
 
 *Se dispone de una cadena de locales de oficinas distribuidos por toda la ciudad. Las oficinas se alquilan por 
 hora individualmente. Se necesita un sistema que administre las reservas optimizando el uso de cada oficina
@@ -34,7 +34,7 @@ Obtener un listado de reservas de una oficina.
 Obtener un listado de oficinas que coincidan con las especificaciones, ordenados por conveniencia.
 Las sugerencias tiene que permitir la capacidad necesaria y tener todos los recursos solicitados.
 Siempre es conveniente reservar una oficina en el barrio solicitado pero si no hay ninguna se pueden sugerir otros locales.
-Tambi?n es prioridad mantener libres las oficinas mas grandes y con mas recursos de los que se requieren.
+Tambien es prioridad mantener libres las oficinas mas grandes y con mas recursos de los que se requieren.
 
 
 ## Proyecto
@@ -49,20 +49,20 @@ Los parametros de entrada se pasan mediante estos objetos.
 
 **NetExam.Test**
 
-Tests unitarios para validar la l?gica implementada.
+Tests unitarios para validar la logica implementada.
 
 ## Resultado
 
-Se espera que el candidato haga una implementaci?n de las abstracciones propuestas para cumplir con la funcionalidad requerida y que pase todos los tests.
+Se espera que el candidato haga una implementacion de las abstracciones propuestas para cumplir con la funcionalidad requerida y que pase todos los tests.
 
 No es necesario:
 - Incluir dependencias externas al proyecto.
 - Implementar una capa de persistencia de datos (todo se trabaja en memoria).
 - Modificar ninguna de las clases e interfaces existentes.
 
-Se considerar?:
-- Comprension de la problem?tica planteada
-- Calidad de la soluci?n
+Se considerara:
+- Comprension de la problematica planteada
+- Calidad de la solucion
 - Deteccion de necesidades ocultas
 - Prolijidad de los entregables
 - Clean Code
