@@ -1,8 +1,0 @@
-C:\Users\josem\source\Large Projects\Urbetrack Coding Challenge\Ejercicio para Developer Net 2\Ejercicio para Developer Net 2\NetExam.Models\obj\Debug\net6.0\NetExam.Models.csproj.AssemblyReference.cache
-C:\Users\josem\source\Large Projects\Urbetrack Coding Challenge\Ejercicio para Developer Net 2\Ejercicio para Developer Net 2\NetExam.Models\obj\Debug\net6.0\NetExam.Models.GeneratedMSBuildEditorConfig.editorconfig
-C:\Users\josem\source\Large Projects\Urbetrack Coding Challenge\Ejercicio para Developer Net 2\Ejercicio para Developer Net 2\NetExam.Models\obj\Debug\net6.0\NetExam.Models.AssemblyInfoInputs.cache
-C:\Users\josem\source\Large Projects\Urbetrack Coding Challenge\Ejercicio para Developer Net 2\Ejercicio para Developer Net 2\NetExam.Models\obj\Debug\net6.0\NetExam.Models.AssemblyInfo.cs
-C:\Users\josem\source\Large Projects\Urbetrack Coding Challenge\Ejercicio para Developer Net 2\Ejercicio para Developer Net 2\NetExam.Models\obj\Debug\net6.0\NetExam.Models.csproj.CoreCompileInputs.cache
-C:\Users\josem\source\Large Projects\Urbetrack Coding Challenge\Ejercicio para Developer Net 2\Ejercicio para Developer Net 2\NetExam.Models\obj\Debug\net6.0\NetExam.Models.MvcApplicationPartsAssemblyInfo.cache
-C:\Users\josem\source\Large Projects\Urbetrack Coding Challenge\Ejercicio para Developer Net 2\Ejercicio para Developer Net 2\NetExam.Models\obj\Debug\net6.0\NetExam.Models.RazorAssemblyInfo.cache
-C:\Users\josem\source\Large Projects\Urbetrack Coding Challenge\Ejercicio para Developer Net 2\Ejercicio para Developer Net 2\NetExam.Models\obj\Debug\net6.0\NetExam.Models.RazorAssemblyInfo.cs
