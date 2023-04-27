@@ -1,10 +1,10 @@
-# Ejercicio de evaluaci?n de candidatos .NET
+# Ejercicio de evaluacion de candidatos .NET
 
-## Introducci?n
+## Introduccipn
 
 *Se dispone de una cadena de locales de oficinas distribuidos por toda la ciudad. Las oficinas se alquilan por 
 hora individualmente. Se necesita un sistema que administre las reservas optimizando el uso de cada oficina
-seg?n su capacidad y recursos disponibles (pizarra, proyector, acceso a internet, etc.).*
+segun su capacidad y recursos disponibles (pizarra, proyector, acceso a internet, etc.).*
 
 
 ## Funcionalidad requerida
@@ -61,9 +61,9 @@ No es necesario:
 - Modificar ninguna de las clases e interfaces existentes.
 
 Se considerar?:
-- Comprensi?n de la problem?tica planteada
+- Comprension de la problem?tica planteada
 - Calidad de la soluci?n
-- Detecci?n de necesidades ocultas
+- Deteccion de necesidades ocultas
 - Prolijidad de los entregables
 - Clean Code
 - Principios SOLID
@@ -72,4 +72,4 @@ Se considerar?:
 - Manejo de errores
 - Conceptos de Domain-Driven Design
 
-La entrevista t?cnica posterior consistir? en la defensa de esta soluci?n.
+La entrevista tecnica posterior consistie en la defensa de esta solucion.
