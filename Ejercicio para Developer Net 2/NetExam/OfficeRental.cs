@@ -87,6 +87,7 @@
             record.LocationName = officeSpecs.LocationName;
             record.Name = officeSpecs.Name;
             record.MaxCapacity = officeSpecs.MaxCapacity;
+            record.AvailableResources = officeSpecs.AvailableResources;
             OfficeList.Add(record);
 
             Console.WriteLine("Office Successfully Added");
@@ -183,165 +184,82 @@
 
         public IEnumerable<IOffice> GetOfficeSuggestion(SuggestionRequest suggestionRequest)
         {
-            // TWO OUTSTANDING ISSUES, FIRST AddOffice() does not currently add ResourcesNeeded
-            // I need to implement that and add it to previous code make sure nothing breaks.
-            // SECOND, There's an issue with office Name and LocationName, need to be on the lookout for that.
 
+            if (suggestionRequest == null)
+            {
+                Console.WriteLine("Suggestion cannot be empty");
+            }
 
-            // if suggestion request is null, Console.WriteLine
+            IEnumerable<Office> resultwithRequiredCapacity = OfficesWithRequiredCapacity(suggestionRequest);
+            IEnumerable<Office> resultwithRequiredResources = OfficesWithRequiredResources(suggestionRequest, 
+                resultwithRequiredCapacity);
 
-            // AddLocation(Name, Neighborhood) (Centro 1, Centro)
-            // AddOffice(LocationName, Name, MaxCapacity, AvailableResources)
-            // ("Centro 1", "1", 12, new[] { "wi-fi", "proyector", "cafe" })
+            if (!resultwithRequiredCapacity.Any())
+            {
+                return resultwithRequiredCapacity;
+            }
 
-            // GetOfficeSuggestion(CapacityNeeded, PreferredNeighborhood, ResourcesNeeded)
-            // (CapacityNeeded 18, Preferred Neighborhood Palermo, ResourcesNeeded null
-            // ExpectedLocation Centro 2, ExpectedOffice 1)
+            if (!resultwithRequiredResources.Any())
+            {
+                return resultwithRequiredResources;
+            }
 
-            // excluyentes: capacidad necesaria, y recursos solicidados
-            // prioridad: dar prioridad al barrio solicitado pero ofrecer otros si ese no se puede
-            // prioridad: siempre seleccionar oficinas lo mas chicas posibles
-            // prioridad: siempre seleccionar oficinas con menor cantidad de recursos posibles
+            IEnumerable<Office> resultByPrefferedNeighbohood = OfficesByPreferredNeighborhood
+                (suggestionRequest, resultwithRequiredResources);
 
-            /*---- OFFICE LIST ----- */
+            IEnumerable<Office> resultBySizeandResourceQuantity = OfficesBySizeandResourceQuantity
+                (suggestionRequest, resultByPrefferedNeighbohood);
 
-            // el IEnumerable<OfficeList> tiene los siguientes datos
-            // AddOffice(LocationName, Name, MaxCapacity, AvailableResources)
-            //("Centro 1", "1", 12, new[] { "wi-fi", "proyector", "cafe" })
-            //("Centro 1", "2", 8, new[] { "wi-fi", "tv", "cafe" })
-            //("Centro 1", "3", 8, new[] { "wi-fi" })
-            //("Centro 1", "4", 4, new[] { "tv" })
-            //("Centro 2", "1", 20, new[] { "wi-fi", "proyector", "cafe", "catering" })
-            //("Centro 2", "2", 6, new[] { "wi-fi", "tv", "cafe" })
-            //("Centro 2", "3", 6, new[] { "wi-fi", "tv" })
-            //("Palermo", "1", 10, new[] { "wi-fi", "tv" })
-            //("Palermo", "2", 8, new[] { "wi-fi", "tv" })
-
-            // to be Matched with
-            // (CapacityNeeded, Preferred Neighborhood, ResourcesNeeded
-            // ExpectedLocation, ExpectedOffice)
-            //(18, "Palermo", null,"Centro 2", "1")
-            //(6, "Centro", new[] { "wi-fi", "tv" }, "Centro 2", "3")
-            //(2, null, null, "Centro 1", "4")
-            //(2, null, new[] { "proyector", "catering" }, "Centro 2", "1")
-            //(30, null, null, null, null)
-
-            // HasRequiredCapacity()
-            // var query = officeList.Where( n => n.MaxCapacity >= CapacityNeeded)
-
-            // HasRequiredResources()
-            // var filteredList = query.Where(n =>
-            // n.AvailableResources is IEnumerable<string> stringList &&
-            // ResourcesNeeded.All(s => stringList.Contains(s)));
-
-            /*---- PRIORIZAR BARRIO PREFERIDO ----- */
-
-            // added locations
-            //OfficeRental.AddLocation(new LocationSpecs("Centro 1", "Centro"));
-            //OfficeRental.AddLocation(new LocationSpecs("Centro 2", "Centro"));
-            //OfficeRental.AddLocation(new LocationSpecs("Palermo", "Palermo"));
-
-
-            // PrioritizePreferredNeighborhood()
-            // obetner listado de Locations por barrio solicitado
-                // var filteredLocationList = LocationList.Where(n => n.Neighbohood == PreferredNeighborhood).ToList();
-            // filteredLocationList es un IEnumerable<Location> con Name y Neighborhood, pero los 
-            // resultados solo corresponden a los Location que corresponden al barrio preferido.
-
-
-            ////// ordenar sugerencias 2 ejemplos el primero es el primero que genere, no es el mejor
-            ////var orderedList = filteredList.OrderBy(n => { // estamos ordenando el filterd list by name
-            ////    string officeName = n.LocationName;
-            ////    string name = filteredLocationList.FirstOrDefault(n => n.Name.StartsWith(officeName));
-            ////    return name;
-            ////});
-            //var orderedList = filteredList.OrderBy(office => {
-            //    string officeName = office.LocationName;
-            //    string name = filteredLocationList.FirstOrDefault(location => location.Name == officeName)?.Name ?? officeName;
-            //    return name;
-            //});
-
-
-            //You have filteredLocationList which is a list of complex type Location which has two string properties
-            //Name and Neighborhood. You have filteredList which is a list of complex type Office which has four properties, three
-            //of which are strings: LocationName, Name, MaxCapacity, and a fourth property which is an IEnumerable<string>
-            //called AvailableResources. You want to use LINQ to order filteredList to produce a list called orderedList, which orders results
-            //in the filteredList by LocationName, where ascending priority is given to the value contained in the filteredLocationList's Name property.
-
-            /*---- SIEMPRE SELECCIONAR LAS OFICINAS MAS CHICAS POSIBLES ----- */
-
-            // PrioritizeSmallerOffices()  // PrioritizeMinimumAvailableResourceOffices()
-
-
-            // dar prioridad a las oficinas mas chicas
-            // result = orderedList.OrderBy(x => int.Parse(x.MaxCapacity))
-            //             .ThenBy(x => x.AvailableResources.Count())
-            //             .ToList();
-
-            /*---- SIEMPRE SELECCIONAR LAS OFICINAS CON MENOS RECURSOS PRIMERO ----- */
-
-
-            //// dar prioridad a las oficinas con menos recursos
-
-            //I have an IEnumerable<Office> called orderedList. orderedList has four properties.
-            //The first three are strings and they are called LocationName, Name, and MaxCapacity.
-            //The fourth property is an IEnumerable<string> called AvailableResources.
-            //I have to reorder orderList according to two criteria.
-            //First I have to order in ascending order by MaxCapacity. Although MaxCapacity is a
-            //string, it contains ints coded as strings. The ordering must be done treating these strings
-            //as ints.
-            //Then I have to order orderedList in ascending order according to the count of available resources.
-            //That is, items with AvailableResources containing fewer strings should be ordered first.
-            //I want to do this using the OrderBy and ThenBy LINQ methods.
-
-
-            /*---- OVERARCHING WORKFLOW ----- */
-
-            // if suggestion request is null, Console.WriteLine
-
-            // if CapacityNeeded is not null
-            // HasRequiredCapacity()
-            // if CapacityNeeded is null
-            // query = officeList
-
-            // if ResourcesNeeded is not null
-            // HasRequiredResources()
-            // if ResourcesNeeded is null
-            // filteredList = query
-
-            // if PreferredNeighbohood is not null
-            // PrioritizePreferredNeighborhood()
-            // if PreferredNeighborhood is null
-            // orderedList = filteredList
-
-            // PrioritizeSmallerOffices()  // PrioritizeMinimumAvailableResourceOffices()
-
-            // persist to suggestion
-
-            //foreach (var item in result)
-            //{
-            //    var suggestion = new Suggestion
-            //    {
-            //        LocationName = item.LocationName,
-            //        Name = item.Name,
-            //        MaxCapacity = item.MaxCapacity,
-            //        AvailableResources = item.AvailableResources
-            //    };
-            //    SuggestionList.Add(suggestion);
-            //}
-
-            // return SuggestionList;
-
-            //I have an IEnumerable<Office> result which has four properties.The first three:
-            // Location Name, Name, and Max Capacity are strings. The fourth, AvailableResources
-            // is an IEnumerable < string >.result is loaded with three items.
-            // I also have a property called SuggestionList which is of type IEnumerable<Suggestion>
-            // Suggestion has the same four properties that result has and of the same type.
-            // I need to loop through result and add to SuggestionList all three items that appear
-            // on result.
+            return resultBySizeandResourceQuantity;
 
         }
 
+        private IEnumerable<Office> OfficesWithRequiredCapacity(SuggestionRequest newRequest)
+        {
+            var result = OfficeList.Where(n => n.MaxCapacity >= newRequest.CapacityNeeded);
+            return result;
 
+        }
+
+        private IEnumerable<Office> OfficesWithRequiredResources(SuggestionRequest newRequest,
+            IEnumerable<Office> officeListWithRequiredCapacity)
+        {
+            var result = officeListWithRequiredCapacity.Where(n =>
+            n.AvailableResources is IEnumerable<string> stringList &&
+            newRequest.ResourcesNeeded.All(s => stringList.Contains(s)));
+            return result;
+        }
+
+        private IEnumerable<Office> OfficesByPreferredNeighborhood(SuggestionRequest newRequest,
+        IEnumerable<Office> officeListWithRequiredCapacity)
+        {
+            IEnumerable<Location> filteredLocationList = LocationList.Where(n => n.Neighborhood == newRequest.PreferedNeigborHood).ToList();
+            // filteredLocation list has Name and Neighbohood, with entries that have only the Pref Neighborhood
+            var orderedList = officeListWithRequiredCapacity.OrderBy(office => { 
+                string officeName = office.LocationName;
+                string name = filteredLocationList.FirstOrDefault(location => location.Name == officeName)?.Name ?? officeName;
+                return name;
+            });
+            return orderedList;
+
+
+            //You have filteredLocationList which is a list of complex type Location which has two string properties
+            //Name and Neighborhood. You have officeListWithRequiredCapacity which is a list of complex type Office which has four properties, three
+            //of which are strings: LocationName, Name, MaxCapacity, and a fourth property which is an IEnumerable<string>
+            //called AvailableResources. You want to use LINQ to order  officeListWithRequiredCapacity to produce a list called orderedList, which orders results
+            //in the filteredList by LocationName, where ascending priority is given to the value contained in the officeListWithRequiredCapacity's Name property.
+
+
+        }
+
+        private IEnumerable<Office> OfficesBySizeandResourceQuantity(SuggestionRequest newRequest,
+        IEnumerable<Office> officeListByPreferredNeighborhood)
+        { 
+
+            var result = officeListByPreferredNeighborhood.OrderBy(x => x.MaxCapacity)
+                     .ThenBy(x => x.AvailableResources.Count())
+                     .ToList();
+            return result;
+        }
     }
 }
